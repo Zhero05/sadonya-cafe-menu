@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title>Sadonya Cafe — Menu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -30,9 +30,16 @@
     --font-body:'Manrope', sans-serif;
   }
   html[dir="rtl"]{
-    --font-display:'Cairo', 'Vazirmatn', sans-serif;
-    --font-body:'Vazirmatn', 'Cairo', sans-serif;
+    --font-display:'Noto Kufi Arabic', 'Cairo', sans-serif;
+    --font-body:'Noto Sans Arabic', 'Cairo', sans-serif;
   }
+  /* Kurdish (Sorani) needs full Arabic-script coverage: ڕ ڵ ێ ۆ ژ چ گ پ */
+  html[lang="ku"]{
+    --font-display:'Noto Kufi Arabic', 'Noto Sans Arabic', sans-serif;
+    --font-body:'Noto Sans Arabic', 'Noto Kufi Arabic', sans-serif;
+  }
+  html[dir="rtl"] body{font-feature-settings:"liga" 1,"calt" 1;}
+  html[dir="rtl"] .item-name, html[dir="rtl"] .cafe-name, html[dir="rtl"] .cat-pill, html[dir="rtl"] .item-desc{line-height:1.7;}
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-body);}
   body{padding-bottom:40px;}
@@ -45,9 +52,8 @@
   /* ---------- Loading ---------- */
   #loading{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:14px;letter-spacing:.02em;}
 
-  /* ---------- Background video (customer view only) ---------- */
-  #bgVideo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;background:var(--espresso);}
-  #bgOverlay{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.5) 100%);}
+  /* ---------- Page backdrop ---------- */
+  #bgOverlay{position:fixed;inset:0;z-index:-1;background:radial-gradient(1100px 600px at 50% -10%, rgba(255,199,44,0.10) 0%, rgba(11,10,8,0) 60%), linear-gradient(180deg,#0B0A08 0%, #16130F 100%);}
 
   /* ---------- Header ---------- */
   .site-header{padding:28px 20px 18px;text-align:center;position:relative;background:
@@ -72,6 +78,19 @@
   .cat-pill.active{background:var(--espresso);color:#141210;border-color:var(--espresso);}
   .cat-pill .stroke{position:absolute;left:14%;right:14%;bottom:-6px;height:5px;opacity:0;transition:opacity .25s;}
   .cat-pill.active .stroke{opacity:1;}
+
+  /* ---------- Search ---------- */
+  .search-wrap{max-width:640px;margin:0 auto;padding:16px 16px 2px;}
+  .search-box{position:relative;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg, rgba(34,29,21,0.92), rgba(22,19,15,0.92));border:1px solid var(--border);border-radius:999px;padding:0 14px;box-shadow:var(--shadow-sm);transition:border-color .25s, box-shadow .25s;}
+  .search-box:focus-within{border-color:rgba(255,199,44,0.55);box-shadow:0 0 0 3px rgba(255,199,44,0.12), var(--shadow-sm);}
+  .search-icon{width:18px;height:18px;flex:0 0 auto;color:var(--gold);opacity:.85;}
+  .search-box input{flex:1;min-width:0;border:none;outline:none;background:transparent;color:var(--text);font-size:14.5px;font-weight:500;padding:13px 0;}
+  .search-box input::placeholder{color:var(--text-muted);opacity:.85;}
+  .search-box input::-webkit-search-cancel-button{display:none;}
+  .search-box button{border:none;background:transparent;color:var(--text-muted);display:flex;align-items:center;padding:4px;border-radius:50%;transition:.2s;}
+  .search-box button:hover{color:var(--gold);}
+  .search-box button svg{width:16px;height:16px;}
+  .search-count{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--text-muted);margin:10px 4px 0;min-height:14px;}
 
   /* ---------- Menu grid ---------- */
   .menu-wrap{max-width:640px;margin:0 auto;padding:18px 16px 8px;}
@@ -180,7 +199,6 @@
 
 <!-- ============ CUSTOMER VIEW ============ -->
 <div id="customerView" style="display:none;">
-  <video id="bgVideo" src="background.mp4" autoplay muted loop playsinline></video>
   <div id="bgOverlay"></div>
   <header class="site-header">
     <div class="lang-switch" id="langSwitch"></div>
@@ -190,6 +208,16 @@
     <h1 class="cafe-name" id="cafeNameEl">Sadonya Cafe</h1>
     <p class="cafe-desc" id="cafeDescEl">Coffee • Food • Desserts</p>
   </header>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="search" autocomplete="off" spellcheck="false">
+      <button id="searchClear" type="button" aria-label="Clear" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
 
   <div class="cat-nav-wrap">
     <nav class="cat-nav" id="catNav"></nav>
@@ -202,7 +230,7 @@
     <div class="hours-card" id="footerHoursCard" style="display:none;"><div class="hours-title"><span id="hoursClock"></span><span id="hoursTitleTxt"></span></div><div class="hours-body" id="hoursBody"></div></div>
     <div id="footerMap" class="map-wrap"></div>
     <div class="footer-scan" id="footerScan">Scan the QR code at your table to view this menu</div>
-    <a href="#admin" class="admin-link">Admin</a>
+    <a href="#admin" class="admin-link">Staff Portal</a>
   </footer>
 </div>
 
@@ -260,9 +288,9 @@ const MENU_ID = "sadonya-cafe";
 const STORAGE_BUCKET = "menu-images";
 
 const UI = {
-  en:{ popular:"Popular", noItems:"No items in this category yet.", hours:"Opening Hours", contact:"Contact", follow:"Follow Us", location:"Location", scan:"Scan the QR code at your table to view this menu", currency:"IQD" },
-  ku:{ popular:"بەناوبانگ", noItems:"هێشتا هیچ شتێک لەم بەشەدا نییە.", hours:"کاتی کارکردن", contact:"پەیوەندی", follow:"شوێنمان بکەون", location:"شوێن", scan:"کۆدی QR لەسەر مێزەکەت سکان بکە بۆ بینینی مینیو", currency:"IQD" },
-  ar:{ popular:"الأكثر طلبًا", noItems:"لا توجد عناصر في هذا القسم بعد.", hours:"ساعات العمل", contact:"تواصل معنا", follow:"تابعنا", location:"الموقع", scan:"امسح رمز QR الموجود على طاولتك لعرض القائمة", currency:"IQD" }
+  en:{ popular:"Popular", noItems:"No items in this category yet.", hours:"Opening Hours", contact:"Contact", follow:"Follow Us", location:"Location", scan:"Scan the QR code at your table to view this menu", currency:"IQD", search:"Search the menu…", noResults:"No matching items found.", results:"results" },
+  ku:{ popular:"بەناوبانگ", noItems:"هێشتا هیچ شتێک لەم بەشەدا نییە.", hours:"کاتی کارکردن", contact:"پەیوەندی", follow:"شوێنمان بکەون", location:"شوێن", scan:"کۆدی QR لەسەر مێزەکەت سکان بکە بۆ بینینی مینیو", currency:"IQD", search:"گەڕان لە مێنیۆدا…", noResults:"هیچ ئەنجامێک نەدۆزرایەوە.", results:"ئەنجام" },
+  ar:{ popular:"الأكثر طلبًا", noItems:"لا توجد عناصر في هذا القسم بعد.", hours:"ساعات العمل", contact:"تواصل معنا", follow:"تابعنا", location:"الموقع", scan:"امسح رمز QR الموجود على طاولتك لعرض القائمة", currency:"IQD", search:"ابحث في القائمة…", noResults:"لا توجد نتائج مطابقة.", results:"نتيجة" }
 };
 
 function tr(field, lang){
@@ -338,6 +366,7 @@ let state = {
   categories: null,
   items: null,
   activeCat: "popular",
+  query: "",
   adminTab: "items",
   isAdminAuthed: false
 };
@@ -431,20 +460,31 @@ const ICON_STAR = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2
 ============================================================ */
 function handleRoute(){
   const hash = location.hash;
-  const bgVideo = document.getElementById("bgVideo");
   if(hash.startsWith("#admin")){
     document.getElementById("customerView").style.display = "none";
     document.getElementById("adminView").style.display = "block";
-    if(bgVideo) bgVideo.pause();
     if(state.isAdminAuthed){ showAdminDashboard(); } else { showAdminLogin(); }
   } else {
     document.getElementById("adminView").style.display = "none";
     document.getElementById("customerView").style.display = "block";
-    if(bgVideo){ bgVideo.play().catch(()=>{}); }
     renderCustomer();
   }
 }
 window.addEventListener("hashchange", handleRoute);
+
+/* ============================================================
+   SEARCH
+============================================================ */
+document.getElementById("searchInput").addEventListener("input", e=>{
+  state.query = e.target.value;
+  renderCustomer();
+});
+document.getElementById("searchClear").addEventListener("click", ()=>{
+  state.query = "";
+  document.getElementById("searchInput").value = "";
+  renderCustomer();
+  document.getElementById("searchInput").focus();
+});
 
 /* ============================================================
    LANGUAGE
@@ -487,6 +527,23 @@ const ICON_SNAPCHAT = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12
 /* ============================================================
    CUSTOMER RENDER
 ============================================================ */
+function normalizeSearch(v){
+  return (v||"").toString().toLowerCase()
+    .replace(/[\u064B-\u065F\u0670]/g,"")
+    .replace(/[أإآٱ]/g,"ا").replace(/[ةۀ]/g,"ه").replace(/[یيىێ]/g,"ی")
+    .replace(/[كک]/g,"ک").replace(/[ؤو]/g,"و").replace(/[ڕ]/g,"ر").replace(/[ڵ]/g,"ل")
+    .replace(/\s+/g," ").trim();
+}
+function itemMatchesQuery(item, q){
+  if(!q) return true;
+  const fields = [item.name, item.description];
+  return fields.some(f=>{
+    if(!f) return false;
+    const vals = (typeof f === "string") ? [f] : Object.values(f);
+    return vals.some(v=> normalizeSearch(v).includes(q));
+  });
+}
+
 function renderCustomer(){
   const lang = state.lang;
   const s = state.settings;
@@ -508,12 +565,31 @@ function renderCustomer(){
 
   // categories (visible only, sorted) -> build ordered list of sections (Popular first, if any)
   const visibleCats = state.categories.filter(c=>!c.hidden).sort((a,b)=>a.order-b.order);
-  const hasPopular = state.items.some(i=>i.popular && i.available && !i.hidden);
-  const sections = [];
+  const q = normalizeSearch(state.query);
+  const shown = i=> i.available && !i.hidden && itemMatchesQuery(i, q);
+  const hasPopular = !q && state.items.some(i=>i.popular && i.available && !i.hidden);
+  let sections = [];
   if(hasPopular) sections.push({ id:"popular", label: UI[lang].popular,
-    items: state.items.filter(i=>i.popular && i.available && !i.hidden).sort((a,b)=>(a.order||0)-(b.order||0)) });
+    items: state.items.filter(i=>i.popular && shown(i)).sort((a,b)=>(a.order||0)-(b.order||0)) });
   visibleCats.forEach(c=> sections.push({ id:c.id, label: tr(c.name, lang),
-    items: state.items.filter(i=>i.categoryId===c.id && i.available && !i.hidden).sort((a,b)=>(a.order||0)-(b.order||0)) }));
+    items: state.items.filter(i=>i.categoryId===c.id && shown(i)).sort((a,b)=>(a.order||0)-(b.order||0)) }));
+  if(q) sections = sections.filter(sec=> sec.items.length > 0);
+
+  // search bar (labels + result count + visibility of category nav)
+  const searchInput = document.getElementById("searchInput");
+  searchInput.placeholder = UI[lang].search;
+  searchInput.dir = (lang === "en") ? "ltr" : "rtl";
+  document.getElementById("searchClear").style.display = state.query ? "flex" : "none";
+  document.querySelector(".cat-nav-wrap").style.display = q ? "none" : "";
+  const matchCount = sections.reduce((n,sec)=> n + (sec.id === "popular" ? 0 : sec.items.length), 0);
+  let countEl = document.getElementById("searchCount");
+  if(!countEl){
+    countEl = document.createElement("div");
+    countEl.id = "searchCount";
+    countEl.className = "search-count";
+    document.querySelector(".search-wrap").appendChild(countEl);
+  }
+  countEl.textContent = q ? `${matchCount} ${UI[lang].results}` : "";
 
   // nav pills
   document.getElementById("catNav").innerHTML = sections.map((sec,i)=>`
@@ -526,7 +602,7 @@ function renderCustomer(){
   // stacked sections
   const wrap = document.getElementById("menuSections");
   if(sections.length === 0){
-    wrap.innerHTML = `<div class="empty-note">${UI[lang].noItems}</div>`;
+    wrap.innerHTML = `<div class="empty-note">${q ? UI[lang].noResults : UI[lang].noItems}</div>`;
   } else {
     wrap.innerHTML = sections.map(sec=>`
       <section class="menu-section" id="sec-${sec.id}" data-cat="${sec.id}">
