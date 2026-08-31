@@ -48,15 +48,15 @@
   input,textarea,select{font-family:inherit;}
   ::-webkit-scrollbar{height:6px;width:6px;}
   ::-webkit-scrollbar-thumb{background:rgba(255,199,44,0.3);border-radius:10px;}
-
+ 
   /* ---------- Loading ---------- */
   #loading{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:14px;letter-spacing:.02em;}
-
+ 
   /* ---------- Page backdrop ---------- */
   #bgOverlay{position:fixed;inset:0;z-index:-1;background:radial-gradient(1100px 600px at 50% -10%, rgba(255,199,44,0.10) 0%, rgba(11,10,8,0) 60%), linear-gradient(180deg,#0B0A08 0%, #16130F 100%);}
-
+ 
   /* ---------- Header ---------- */
-  .site-header{padding:28px 20px 18px;text-align:center;position:relative;background:
+  .site-header{padding:56px 20px 18px;text-align:center;position:relative;background:
       linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(11,10,8,0.35) 100%);
     backdrop-filter:blur(3px);
     border-bottom:1px solid var(--border);
@@ -64,12 +64,12 @@
   .lang-switch{position:absolute; top:16px; inset-inline-end:16px; display:flex; gap:4px; background:var(--card); border:1px solid var(--border); border-radius:999px; padding:3px; box-shadow:var(--shadow-sm);}
   .lang-switch button{border:none;background:transparent;font-size:11px;padding:6px 10px;border-radius:999px;color:var(--text-muted);font-weight:700;letter-spacing:.02em;transition:.25s;}
   .lang-switch button.active{background:var(--espresso);color:#141210;}
-  .logo-wrap{width:76px;height:76px;margin:0 auto 12px;border-radius:50%;background:linear-gradient(155deg,var(--gold) 0%, var(--gold-dark) 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,199,44,0.35);overflow:hidden;border:3px solid #141210;}
+  .logo-wrap{width:76px;height:76px;margin:12px auto 12px;border-radius:50%;background:linear-gradient(155deg,var(--gold) 0%, var(--gold-dark) 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(255,199,44,0.35);overflow:hidden;border:3px solid #141210;}
   .logo-wrap img{width:100%;height:100%;object-fit:cover;}
   .logo-wrap svg{width:34px;height:34px;}
   .cafe-name{font-family:var(--font-display);font-weight:700;font-size:32px;margin:0 0 4px;letter-spacing:.01em;color:var(--gold);text-shadow:0 2px 12px rgba(0,0,0,0.6);}
   .cafe-desc{font-size:13.5px;color:var(--text-muted);margin:0;letter-spacing:.03em;}
-
+ 
   /* ---------- Category nav ---------- */
   .cat-nav-wrap{position:sticky;top:0;z-index:20;background:rgba(11,10,8,0.78);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
   .cat-nav{display:flex;gap:8px;overflow-x:auto;padding:14px 16px;scrollbar-width:none;}
@@ -78,7 +78,7 @@
   .cat-pill.active{background:var(--espresso);color:#141210;border-color:var(--espresso);}
   .cat-pill .stroke{position:absolute;left:14%;right:14%;bottom:-6px;height:5px;opacity:0;transition:opacity .25s;}
   .cat-pill.active .stroke{opacity:1;}
-
+ 
   /* ---------- Search ---------- */
   .search-wrap{max-width:640px;margin:0 auto;padding:16px 16px 2px;}
   .search-box{position:relative;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg, rgba(34,29,21,0.92), rgba(22,19,15,0.92));border:1px solid var(--border);border-radius:999px;padding:0 14px;box-shadow:var(--shadow-sm);transition:border-color .25s, box-shadow .25s;}
@@ -91,7 +91,7 @@
   .search-box button:hover{color:var(--gold);}
   .search-box button svg{width:16px;height:16px;}
   .search-count{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--text-muted);margin:10px 4px 0;min-height:14px;}
-
+ 
   /* ---------- Menu grid ---------- */
   .menu-wrap{max-width:640px;margin:0 auto;padding:18px 16px 8px;}
   .menu-section{scroll-margin-top:74px;margin-bottom:34px;}
@@ -112,7 +112,7 @@
   .item-desc{font-size:13px;color:var(--text-muted);margin:6px 0 10px;line-height:1.5;}
   .item-price{font-family:var(--font-display);font-size:15.5px;font-weight:600;color:var(--sage);}
   .empty-note{text-align:center;color:var(--text-muted);font-size:13.5px;padding:50px 20px;}
-
+ 
   /* ---------- Footer ---------- */
   .site-footer{max-width:640px;margin:26px auto 0;padding:24px 20px 4px;border-top:1px solid var(--border);text-align:center;}
   .footer-row{font-size:12.5px;color:var(--text-muted);margin:5px 0;}
@@ -128,7 +128,7 @@
   .hours-card .hours-body{font-size:15px;color:var(--text);line-height:1.7;white-space:pre-line;font-weight:600;}
   .footer-scan{font-size:11.5px;color:var(--text-muted);opacity:.8;margin-top:14px;}
   .admin-link{display:inline-block;margin-top:18px;font-size:11px;color:var(--text-muted);opacity:.55;text-decoration:none;letter-spacing:.03em;}
-
+ 
   /* ================= ADMIN ================= */
   #adminView{display:none;min-height:100vh;background:var(--bg);}
   .admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -147,7 +147,7 @@
   .btn-danger{background:#1d1812;color:#FF7A6B;border:1px solid rgba(255,122,107,.35);}
   .btn-sm{padding:6px 12px;font-size:12px;}
   .error-text{color:#FF7A6B;font-size:12.5px;margin-top:8px;}
-
+ 
   .admin-shell{max-width:920px;margin:0 auto;padding:22px 18px 60px;}
   .admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
   .admin-topbar h1{font-family:var(--font-display);font-size:22px;margin:0;color:var(--ink);}
@@ -194,9 +194,9 @@
 </style>
 </head>
 <body>
-
+ 
 <div id="loading">Loading Sadonya Cafe…</div>
-
+ 
 <!-- ============ CUSTOMER VIEW ============ -->
 <div id="customerView" style="display:none;">
   <div id="bgOverlay"></div>
@@ -208,7 +208,7 @@
     <h1 class="cafe-name" id="cafeNameEl">Sadonya Cafe</h1>
     <p class="cafe-desc" id="cafeDescEl">Coffee • Food • Desserts</p>
   </header>
-
+ 
   <div class="search-wrap">
     <div class="search-box">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2" stroke-linecap="round"/></svg>
@@ -218,13 +218,13 @@
       </button>
     </div>
   </div>
-
+ 
   <div class="cat-nav-wrap">
     <nav class="cat-nav" id="catNav"></nav>
   </div>
-
+ 
   <main class="menu-wrap" id="menuSections"></main>
-
+ 
   <footer class="site-footer">
     <div id="footerContact"></div>
     <div class="hours-card" id="footerHoursCard" style="display:none;"><div class="hours-title"><span id="hoursClock"></span><span id="hoursTitleTxt"></span></div><div class="hours-body" id="hoursBody"></div></div>
@@ -233,7 +233,7 @@
     <a href="#admin" class="admin-link">Staff Portal</a>
   </footer>
 </div>
-
+ 
 <!-- ============ ADMIN VIEW ============ -->
 <div id="adminView">
   <div class="admin-login" id="adminLogin">
@@ -253,7 +253,7 @@
       <p style="margin-top:16px;"><a href="#" id="backToMenuLink" style="font-size:12px;color:var(--text-muted);">← Back to menu</a></p>
     </div>
   </div>
-
+ 
   <div class="admin-shell" id="adminDashboard" style="display:none;">
     <div class="admin-topbar">
       <h1>Sadonya Cafe — Admin</h1>
@@ -272,11 +272,11 @@
     <div id="tabContent"></div>
   </div>
 </div>
-
+ 
 <script>
 (function(){
 "use strict";
-
+ 
 /* ============================================================
    CONSTANTS & TRANSLATIONS
 ============================================================ */
@@ -286,19 +286,19 @@ const supabaseClient = (SUPABASE_URL.startsWith("http") && SUPABASE_ANON_KEY !==
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 const MENU_ID = "sadonya-cafe";
 const STORAGE_BUCKET = "menu-images";
-
+ 
 const UI = {
   en:{ popular:"Popular", noItems:"No items in this category yet.", hours:"Opening Hours", contact:"Contact", follow:"Follow Us", location:"Location", scan:"Scan the QR code at your table to view this menu", currency:"IQD", search:"Search the menu…", noResults:"No matching items found.", results:"results" },
   ku:{ popular:"بەناوبانگ", noItems:"هێشتا هیچ شتێک لەم بەشەدا نییە.", hours:"کاتی کارکردن", contact:"پەیوەندی", follow:"شوێنمان بکەون", location:"شوێن", scan:"کۆدی QR لەسەر مێزەکەت سکان بکە بۆ بینینی مینیو", currency:"IQD", search:"گەڕان لە مێنیۆدا…", noResults:"هیچ ئەنجامێک نەدۆزرایەوە.", results:"ئەنجام" },
   ar:{ popular:"الأكثر طلبًا", noItems:"لا توجد عناصر في هذا القسم بعد.", hours:"ساعات العمل", contact:"تواصل معنا", follow:"تابعنا", location:"الموقع", scan:"امسح رمز QR الموجود على طاولتك لعرض القائمة", currency:"IQD", search:"ابحث في القائمة…", noResults:"لا توجد نتائج مطابقة.", results:"نتيجة" }
 };
-
+ 
 function tr(field, lang){
   if(!field) return "";
   if(typeof field === "string") return field;
   return field[lang] || field.en || "";
 }
-
+ 
 /* ============================================================
    DEFAULT DEMO DATA
 ============================================================ */
@@ -314,13 +314,13 @@ const DEFAULT_SETTINGS = {
   hours: "",
   publicUrl: "https://yourdomain.com/menu/sadonya-cafe"
 };
-
+ 
 const DEFAULT_CATEGORIES = [
   { id:"coffee", name:{en:"Coffee",ku:"قاوە",ar:"قهوة"}, order:1, hidden:false },
   { id:"cold-drinks", name:{en:"Cold Drinks",ku:"خواردنەوە ساردەکان",ar:"المشروبات الباردة"}, order:2, hidden:false },
   { id:"desserts", name:{en:"Desserts",ku:"شیرینی",ar:"الحلويات"}, order:3, hidden:false }
 ];
-
+ 
 const DEFAULT_ITEMS = [
   { id:"esp", categoryId:"coffee", order:1, price:3000, available:true, hidden:false, popular:false, image:"",
     name:{en:"Espresso",ku:"ئێسپرێسۆ",ar:"إسبريسو"},
@@ -356,7 +356,7 @@ const DEFAULT_ITEMS = [
     name:{en:"Tiramisu",ku:"تیرامیسو",ar:"تيراميسو"},
     description:{en:"Coffee-soaked layers with mascarpone cream.",ku:"چینەکانی تڕکردوو بە قاوە لەگەڵ کرێمی ماسکارپۆنی.",ar:"طبقات منقوعة بالقهوة مع كريمة الماسكاربوني."} }
 ];
-
+ 
 /* ============================================================
    STATE
 ============================================================ */
@@ -370,12 +370,12 @@ let state = {
   adminTab: "items",
   isAdminAuthed: false
 };
-
+ 
 /* ============================================================
    SUPABASE STORAGE / DATA HELPERS
 ============================================================ */
 function isConfigured(){ return !!supabaseClient; }
-
+ 
 async function loadAll(){
   if(!supabaseClient){
     state.settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
@@ -392,7 +392,7 @@ async function loadAll(){
   state.categories = data?.categories || JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
   state.items = data?.items || JSON.parse(JSON.stringify(DEFAULT_ITEMS));
 }
-
+ 
 async function persistAll(){
   if(!supabaseClient){ alert("Supabase is not configured yet. Add your Supabase URL and anon key near the top of this file."); return false; }
   const { error } = await supabaseClient.from("menu_data").upsert({
@@ -401,11 +401,11 @@ async function persistAll(){
   if(error){ console.error(error); alert("Could not save the menu: " + error.message); return false; }
   return true;
 }
-
+ 
 async function persistSettings(){ return persistAll(); }
 async function persistCategories(){ return persistAll(); }
 async function persistItems(){ return persistAll(); }
-
+ 
 async function uploadDataUrl(dataUrl, folder, filename){
   if(!supabaseClient || !dataUrl || !dataUrl.startsWith("data:")) return dataUrl;
   const res = await fetch(dataUrl);
@@ -416,21 +416,21 @@ async function uploadDataUrl(dataUrl, folder, filename){
   const { data } = supabaseClient.storage.from(STORAGE_BUCKET).getPublicUrl(path);
   return data.publicUrl;
 }
-
+ 
 async function requireAuth(){
   if(!supabaseClient) return false;
   const { data } = await supabaseClient.auth.getSession();
   state.isAdminAuthed = !!data.session;
   return state.isAdminAuthed;
 }
-
+ 
 /* ============================================================
    UTIL
 ============================================================ */
 function uid(prefix){ return prefix + "_" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function fmtPrice(n){ return Number(n||0).toLocaleString() + " " + UI[state.lang].currency; }
-
+ 
 function resizeImage(file, maxW, quality){
   return new Promise((resolve, reject)=>{
     const reader = new FileReader();
@@ -451,10 +451,10 @@ function resizeImage(file, maxW, quality){
     reader.readAsDataURL(file);
   });
 }
-
+ 
 const ICON_CUP = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h13a3 3 0 0 1 0 6h-1M4 8v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8M4 8V6M9 3v2M13 3v2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const ICON_STAR = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6L22 9.6l-5 4.9 1.2 7-6.2-3.6L5.8 21.5 7 14.5l-5-4.9 7.1-1z"/></svg>`;
-
+ 
 /* ============================================================
    ROUTER
 ============================================================ */
@@ -471,7 +471,7 @@ function handleRoute(){
   }
 }
 window.addEventListener("hashchange", handleRoute);
-
+ 
 /* ============================================================
    SEARCH
 ============================================================ */
@@ -485,7 +485,7 @@ document.getElementById("searchClear").addEventListener("click", ()=>{
   renderCustomer();
   document.getElementById("searchInput").focus();
 });
-
+ 
 /* ============================================================
    LANGUAGE
 ============================================================ */
@@ -496,7 +496,7 @@ function setLang(lang){
   document.documentElement.dir = dir;
   renderCustomer();
 }
-
+ 
 function socialUrl(v, kind){
   const val = (v || "").trim();
   if(!val) return "";
@@ -523,7 +523,7 @@ const ICON_CLOCK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const ICON_INSTAGRAM = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>`;
 const ICON_FACEBOOK = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg>`;
 const ICON_SNAPCHAT = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a6.1 6.1 0 0 1 6.06 6.16c0 .48-.03 1.02-.05 1.5.36.16.74.1 1.1-.05.4-.16.88-.08 1.06.32.19.4-.06.82-.46 1.03-.63.33-1.7.5-1.95 1.24-.1.3-.02.66.1.98.5 1.32 1.5 2.44 2.86 2.93.36.13.6.47.44.83-.2.44-.87.99-2.24 1.19-.16.02-.28.28-.35.55-.06.24-.14.5-.35.28-.3-.3-.87-.37-1.44-.26-.6.11-1.1.5-1.7.5-.9 0-1.4-.4-2.16-.4s-1.26.4-2.16.4c-.6 0-1.1-.39-1.44-.5-.57-.11-1.14-.04-1.44.26-.2.22-.29-.02-.35-.26-.07-.27-.19-.53-.35-.55-1.37-.2-2.04-.75-2.24-.95-.16-.36.08-.7.44-.83 1.36-.49 2.36-1.61 2.86-2.93.12-.3.2-.6.05-.83-.25-.4-.9-.4-1.35-.63-.4-.2-.65-.63-.46-1.03.18-.4.67-.48 1.06-.33.36.15.74.21 1.1.05-.02-.48-.05-1.02-.05-1.5A6.1 6.1 0 0 1 12 2z"/></svg>`;
-
+ 
 /* ============================================================
    CUSTOMER RENDER
 ============================================================ */
@@ -543,17 +543,17 @@ function itemMatchesQuery(item, q){
     return vals.some(v=> normalizeSearch(v).includes(q));
   });
 }
-
+ 
 function renderCustomer(){
   const lang = state.lang;
   const s = state.settings;
-
+ 
   // header
   document.getElementById("cafeNameEl").textContent = s.name || "Sadonya Cafe";
   document.getElementById("cafeDescEl").textContent = tr(s.description, lang);
   const logoWrap = document.getElementById("logoWrap");
   logoWrap.innerHTML = s.logo ? `<img src="${s.logo}" alt="logo">` : `<svg viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="1.6"><path d="M4 8h13a3 3 0 0 1 0 6h-1M4 8v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8M4 8V6M9 3v2M13 3v2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-
+ 
   // language switch
   const langs = [["en","English"],["ku","کوردی"],["ar","العربية"]];
   document.getElementById("langSwitch").innerHTML = langs.map(([code,label])=>
@@ -562,7 +562,7 @@ function renderCustomer(){
   document.querySelectorAll("#langSwitch button").forEach(btn=>{
     btn.onclick = ()=> setLang(btn.dataset.lang);
   });
-
+ 
   // categories (visible only, sorted) -> build ordered list of sections (Popular first, if any)
   const visibleCats = state.categories.filter(c=>!c.hidden).sort((a,b)=>a.order-b.order);
   const q = normalizeSearch(state.query);
@@ -574,7 +574,7 @@ function renderCustomer(){
   visibleCats.forEach(c=> sections.push({ id:c.id, label: tr(c.name, lang),
     items: state.items.filter(i=>i.categoryId===c.id && shown(i)).sort((a,b)=>(a.order||0)-(b.order||0)) }));
   if(q) sections = sections.filter(sec=> sec.items.length > 0);
-
+ 
   // search bar (labels + result count + visibility of category nav)
   const searchInput = document.getElementById("searchInput");
   searchInput.placeholder = UI[lang].search;
@@ -590,7 +590,7 @@ function renderCustomer(){
     document.querySelector(".search-wrap").appendChild(countEl);
   }
   countEl.textContent = q ? `${matchCount} ${UI[lang].results}` : "";
-
+ 
   // nav pills
   document.getElementById("catNav").innerHTML = sections.map((sec,i)=>`
     <button class="cat-pill ${i===0?'active':''}" data-cat="${sec.id}">
@@ -598,7 +598,7 @@ function renderCustomer(){
       <svg class="stroke" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M2 6 Q 25 2, 50 6 T 98 5" stroke="var(--gold)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
     </button>
   `).join("");
-
+ 
   // stacked sections
   const wrap = document.getElementById("menuSections");
   if(sections.length === 0){
@@ -626,7 +626,7 @@ function renderCustomer(){
       </section>
     `).join("");
   }
-
+ 
   // click a pill -> smooth scroll to that section
   document.querySelectorAll(".cat-pill").forEach(btn=>{
     btn.onclick = ()=>{
@@ -638,7 +638,7 @@ function renderCustomer(){
       }
     };
   });
-
+ 
   // scroll-spy -> highlight the pill for whichever section is in view
   if(window._menuScrollObserver) window._menuScrollObserver.disconnect();
   const navHeightPx = document.querySelector(".cat-nav-wrap").offsetHeight;
@@ -654,7 +654,7 @@ function renderCustomer(){
   }, { rootMargin: `-${navHeightPx + 10}px 0px -70% 0px`, threshold: 0 });
   document.querySelectorAll(".menu-section").forEach(sec=> observer.observe(sec));
   window._menuScrollObserver = observer;
-
+ 
   // footer
   const contactParts = [];
   if(s.phone) contactParts.push(`<div class="footer-row">${escapeHtml(s.phone)}</div>`);
@@ -675,7 +675,7 @@ function renderCustomer(){
   document.getElementById("footerMap").innerHTML = embed ? `<iframe class="map-embed" src="${embed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="${UI[lang].location}"></iframe>` : "";
   document.getElementById("footerScan").textContent = UI[lang].scan;
 }
-
+ 
 /* ============================================================
    ADMIN — AUTH (Supabase Auth)
 ============================================================ */
@@ -701,7 +701,7 @@ document.getElementById("adminLoginBtn").addEventListener("click", async ()=>{
 document.getElementById("adminPassInput").addEventListener("keydown", e=>{ if(e.key === "Enter") document.getElementById("adminLoginBtn").click(); });
 document.getElementById("backToMenuLink").addEventListener("click", e=>{ e.preventDefault(); location.hash = ""; });
 document.getElementById("logoutBtn").addEventListener("click", async ()=>{ if(supabaseClient) await supabaseClient.auth.signOut(); state.isAdminAuthed = false; location.hash=""; });
-
+ 
 /* ============================================================
    ADMIN — TABS
 ============================================================ */
@@ -711,7 +711,7 @@ document.getElementById("adminTabs").addEventListener("click", e=>{
   state.adminTab = btn.dataset.tab;
   renderAdminTabs();
 });
-
+ 
 function renderAdminTabs(){
   document.querySelectorAll(".tab-btn").forEach(b=> b.classList.toggle("active", b.dataset.tab === state.adminTab));
   const el = document.getElementById("tabContent");
@@ -720,7 +720,7 @@ function renderAdminTabs(){
   else if(state.adminTab === "settings") renderSettingsTab(el);
   else if(state.adminTab === "qr") renderQrTab(el);
 }
-
+ 
 /* ---------------- CATEGORIES TAB ---------------- */
 function renderCategoriesTab(el){
   const cats = [...state.categories].sort((a,b)=>a.order-b.order);
@@ -761,7 +761,7 @@ function renderCategoriesTab(el){
     if(downBtn) downBtn.onclick = ()=> swapOrder(state.categories, cat, 1, persistCategories, ()=>renderCategoriesTab(el));
   });
 }
-
+ 
 function swapOrder(list, item, dir, persistFn, rerenderFn){
   const sameCat = item.categoryId !== undefined;
   let sorted = [...list].sort((a,b)=>(a.order||0)-(b.order||0));
@@ -774,7 +774,7 @@ function swapOrder(list, item, dir, persistFn, rerenderFn){
   sorted[swapIdx].order = tmp;
   persistFn(); rerenderFn();
 }
-
+ 
 function openCategoryModal(cat){
   const isNew = !cat;
   const draft = cat ? JSON.parse(JSON.stringify(cat)) : { id: uid("cat"), name:{en:"",ku:"",ar:""}, order: state.categories.length+1, hidden:false };
@@ -807,7 +807,7 @@ function openCategoryModal(cat){
     renderAdminTabs();
   };
 }
-
+ 
 /* ---------------- ITEMS TAB ---------------- */
 function renderItemsTab(el){
   const cats = [...state.categories].sort((a,b)=>a.order-b.order);
@@ -851,7 +851,7 @@ function renderItemsTab(el){
         </div>
       </div>`;
     }).join("") || `<p style="color:var(--text-muted);font-size:13px;">No items in this category yet.</p>`;
-
+ 
     document.querySelectorAll("#itemsList .admin-card").forEach(card=>{
       const id = card.dataset.id;
       const item = state.items.find(i=>i.id===id);
@@ -873,7 +873,7 @@ function renderItemsTab(el){
   document.getElementById("itemFilter").onchange = drawList;
   drawList();
 }
-
+ 
 function openItemModal(item){
   const isNew = !item;
   const draft = item ? JSON.parse(JSON.stringify(item)) : {
@@ -883,24 +883,24 @@ function openItemModal(item){
   };
   let activeLangTab = "en";
   const cats = [...state.categories].sort((a,b)=>a.order-b.order);
-
+ 
   const overlay = document.createElement("div");
   overlay.className = "modal-overlay";
   overlay.innerHTML = `
     <div class="modal">
       <h3>${isNew ? "Add Menu Item" : "Edit Menu Item"}</h3>
-
+ 
       <div class="img-upload-box">
         <img id="mImgPreview" class="img-preview" src="${draft.image || ''}" style="${draft.image?'':'display:none;'}">
         <input type="file" id="mImgFile" accept="image/*" style="display:none;">
         <button class="btn btn-outline btn-sm" id="mImgPick" type="button">Upload Image</button>
         <button class="btn btn-danger btn-sm" id="mImgRemove" type="button" style="${draft.image?'':'display:none;'} margin-left:6px;">Remove</button>
       </div>
-
+ 
       <div class="field" style="margin-top:14px;"><label>Category</label>
         <select id="mItemCat">${cats.map(c=>`<option value="${c.id}" ${draft.categoryId===c.id?'selected':''}>${escapeHtml(c.name.en)}</option>`).join("")}</select>
       </div>
-
+ 
       <div class="lang-tabs">
         <button class="lang-tab active" data-l="en" type="button">English</button>
         <button class="lang-tab" data-l="ku" type="button">Kurdish</button>
@@ -908,21 +908,21 @@ function openItemModal(item){
       </div>
       <div class="field"><label>Name</label><input id="mItemName" value="${escapeHtml(draft.name.en)}"></div>
       <div class="field"><label>Description</label><textarea id="mItemDesc">${escapeHtml(draft.description.en)}</textarea></div>
-
+ 
       <div class="field"><label>Price (IQD)</label><input id="mItemPrice" type="number" min="0" step="250" value="${draft.price}"></div>
-
+ 
       <div class="grid-2">
         <label class="pill-toggle"><span class="switch"><input type="checkbox" id="mItemAvail" ${draft.available?'checked':''}><span class="slider"></span></span>Available</label>
         <label class="pill-toggle"><span class="switch"><input type="checkbox" id="mItemPop" ${draft.popular?'checked':''}><span class="slider"></span></span>Popular</label>
       </div>
-
+ 
       <div class="modal-actions">
         <button class="btn btn-outline" id="mItemCancel">Cancel</button>
         <button class="btn btn-primary" id="mItemSave">Save Item</button>
       </div>
     </div>`;
   document.body.appendChild(overlay);
-
+ 
   // keep an in-memory copy of the 3 languages while editing, save on tab switch
   const langDraft = JSON.parse(JSON.stringify({name:draft.name, description:draft.description}));
   function flushCurrentLang(){
@@ -943,7 +943,7 @@ function openItemModal(item){
       loadLang(activeLangTab);
     };
   });
-
+ 
   overlay.querySelector("#mImgPick").onclick = ()=> overlay.querySelector("#mImgFile").click();
   overlay.querySelector("#mImgFile").onchange = async (e)=>{
     const file = e.target.files[0];
@@ -959,7 +959,7 @@ function openItemModal(item){
     overlay.querySelector("#mImgPreview").style.display = "none";
     overlay.querySelector("#mImgRemove").style.display = "none";
   };
-
+ 
   overlay.querySelector("#mItemCancel").onclick = ()=> overlay.remove();
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
   overlay.querySelector("#mItemSave").onclick = async ()=>{
@@ -980,7 +980,7 @@ function openItemModal(item){
     }catch(err){ console.error(err); alert("Could not upload the image: " + err.message); btn.disabled=false; btn.textContent="Save Item"; }
   };
 }
-
+ 
 /* ---------------- SETTINGS TAB ---------------- */
 function renderSettingsTab(el){
   const s = state.settings;
@@ -1060,7 +1060,7 @@ function renderSettingsTab(el){
     setTimeout(()=> note.style.display = "none", 1800);
   };
 }
-
+ 
 /* ---------------- QR TAB ---------------- */
 function renderQrTab(el){
   const s = state.settings;
@@ -1100,7 +1100,7 @@ function renderQrTab(el){
     }, 50);
   };
 }
-
+ 
 /* ============================================================
    BOOT
 ============================================================ */
@@ -1110,7 +1110,7 @@ function renderQrTab(el){
   document.getElementById("loading").style.display = "none";
   handleRoute();
 })();
-
+ 
 })();
 </script>
 </body>
