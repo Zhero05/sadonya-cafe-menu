@@ -42,7 +42,42 @@
   html[dir="rtl"] .item-name, html[dir="rtl"] .cafe-name, html[dir="rtl"] .cat-pill, html[dir="rtl"] .item-desc{line-height:1.7;}
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font-body);}
-  body{padding-bottom:40px;}
+  html{scroll-behavior:smooth;}
+  body{padding-bottom:40px;overscroll-behavior-y:none;}
+
+  /* ---------- Global smooth motion ---------- */
+  #customerView{
+    opacity:1;
+    transform:translateY(0);
+    transition:opacity .32s cubic-bezier(.22,1,.36,1),
+               transform .42s cubic-bezier(.22,1,.36,1),
+               filter .32s ease;
+    will-change:opacity,transform,filter;
+  }
+  #customerView.language-transitioning{
+    opacity:0;
+    transform:translateY(7px);
+    filter:blur(1.5px);
+    pointer-events:none;
+  }
+  #customerView.language-entering{
+    animation:languageEnter .46s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes languageEnter{
+    from{opacity:0;transform:translateY(8px);filter:blur(1.5px);}
+    to{opacity:1;transform:translateY(0);filter:blur(0);}
+  }
+  .site-header,.search-wrap,.cat-nav-wrap,.menu-wrap,.site-footer{
+    transition:opacity .35s ease, transform .42s cubic-bezier(.22,1,.36,1);
+  }
+  .cafe-name,.cafe-desc,.section-label,.item-name,.item-desc,.item-price,.footer-row,.footer-scan,.hours-card{
+    transition:color .28s ease, opacity .28s ease;
+  }
+  *{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+  }
   img{max-width:100%;display:block;}
   button{font-family:inherit;cursor:pointer;}
   input,textarea,select{font-family:inherit;}
@@ -431,23 +466,51 @@ function uid(prefix){ return prefix + "_" + Date.now().toString(36) + Math.rando
 function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function fmtPrice(n){ return Number(n||0).toLocaleString() + " " + UI[state.lang].currency; }
  
-function resizeImage(file, maxW, quality){
+/*
+ * Resize + compress every uploaded image BEFORE it is sent to Supabase.
+ * maxSize is the longest side in pixels. Images are always converted to JPEG.
+ */
+function resizeImage(file, maxSize = 1200, quality = 0.78){
   return new Promise((resolve, reject)=>{
+    if(!file || !file.type.startsWith("image/")){
+      reject(new Error("Please select an image file."));
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = e =>{
       const img = new Image();
       img.onload = ()=>{
-        let w = img.width, h = img.height;
-        if(w > maxW){ h = Math.round(h * (maxW / w)); w = maxW; }
-        const canvas = document.createElement("canvas");
-        canvas.width = w; canvas.height = h;
-        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL("image/jpeg", quality));
+        try{
+          let w = img.naturalWidth || img.width;
+          let h = img.naturalHeight || img.height;
+          const scale = Math.min(1, maxSize / Math.max(w, h));
+          w = Math.max(1, Math.round(w * scale));
+          h = Math.max(1, Math.round(h * scale));
+
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d", {alpha:false});
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(img, 0, 0, w, h);
+
+          // JPEG compression happens here, before the image is uploaded.
+          const dataUrl = canvas.toDataURL("image/jpeg", quality);
+          if(!dataUrl || dataUrl === "data:,"){
+            reject(new Error("Could not process the selected image."));
+            return;
+          }
+          resolve(dataUrl);
+        }catch(err){
+          reject(err);
+        }
       };
-      img.onerror = reject;
+      img.onerror = ()=> reject(new Error("Could not read the selected image."));
       img.src = e.target.result;
     };
-    reader.onerror = reject;
+    reader.onerror = ()=> reject(new Error("Could not read the selected file."));
     reader.readAsDataURL(file);
   });
 }
@@ -489,12 +552,44 @@ document.getElementById("searchClear").addEventListener("click", ()=>{
 /* ============================================================
    LANGUAGE
 ============================================================ */
+let languageTransitionTimer = null;
 function setLang(lang){
-  state.lang = lang;
-  const dir = (lang === "en") ? "ltr" : "rtl";
-  document.documentElement.lang = lang;
-  document.documentElement.dir = dir;
-  renderCustomer();
+  if(!lang || lang === state.lang) return;
+
+  const customer = document.getElementById("customerView");
+  const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Fade the current language out first. This prevents the text, direction,
+  // and layout from changing abruptly in the same frame.
+  if(reducedMotion){
+    state.lang = lang;
+    const dir = (lang === "en") ? "ltr" : "rtl";
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir;
+    renderCustomer();
+    return;
+  }
+
+  clearTimeout(languageTransitionTimer);
+  customer.classList.remove("language-entering");
+  customer.classList.add("language-transitioning");
+
+  languageTransitionTimer = setTimeout(()=>{
+    state.lang = lang;
+    const dir = (lang === "en") ? "ltr" : "rtl";
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir;
+    renderCustomer();
+
+    // Let the browser paint the new language while hidden, then animate it in.
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        customer.classList.remove("language-transitioning");
+        customer.classList.add("language-entering");
+        setTimeout(()=>customer.classList.remove("language-entering"), 500);
+      });
+    });
+  }, 190);
 }
  
 function socialUrl(v, kind){
@@ -948,7 +1043,7 @@ function openItemModal(item){
   overlay.querySelector("#mImgFile").onchange = async (e)=>{
     const file = e.target.files[0];
     if(!file) return;
-    const dataUrl = await resizeImage(file, 900, 0.72);
+    const dataUrl = await resizeImage(file, 1200, 0.78);
     draft.image = dataUrl;
     overlay.querySelector("#mImgPreview").src = dataUrl;
     overlay.querySelector("#mImgPreview").style.display = "block";
@@ -1032,7 +1127,7 @@ function renderSettingsTab(el){
   el.querySelector("#sLogoFile").onchange = async (e)=>{
     const file = e.target.files[0];
     if(!file) return;
-    const dataUrl = await resizeImage(file, 400, 0.8);
+    const dataUrl = await resizeImage(file, 512, 0.82);
     s.logo = dataUrl;
     el.querySelector("#sLogoPreview").src = dataUrl;
     el.querySelector("#sLogoPreview").style.display = "block";
