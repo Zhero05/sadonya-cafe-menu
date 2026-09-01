@@ -161,6 +161,8 @@
   .hours-card .hours-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
   .hours-card .hours-title svg{width:18px;height:18px;}
   .hours-card .hours-body{font-size:15px;color:var(--text);line-height:1.7;white-space:pre-line;font-weight:600;}
+  /* phone numbers and opening-time digits must never be mirrored in RTL languages */
+  .ltr-iso{direction:ltr;unicode-bidi:isolate;display:inline-block;}
   .footer-scan{font-size:11.5px;color:var(--text-muted);opacity:.8;margin-top:14px;}
   .admin-link{display:inline-block;margin-top:18px;font-size:11px;color:var(--text-muted);opacity:.55;text-decoration:none;letter-spacing:.03em;}
  
@@ -226,11 +228,126 @@
   #qrcode-canvas-wrap{display:flex;justify-content:center;margin:16px 0;}
   select.cat-filter{max-width:220px;}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+
+  /* ---------- Waiting Lobby (intro screen) ---------- */
+  #lobby{
+    position:fixed; inset:0; z-index:60;
+    background:#0B0A08;
+    opacity:1;
+    transition:opacity .6s cubic-bezier(.22,1,.36,1), visibility .6s;
+  }
+  #lobby.lobby-leaving{ opacity:0; visibility:hidden; pointer-events:none; }
+  #lobby.lobby-leaving .lobby-inner{ transform:scale(1.04); filter:blur(2px); }
+  #lobby .lobby-bg{
+    position:absolute; inset:0;
+    background-image:url("https://cdn.omniultra.imagine.art/ceaed39a-684f-4da0-a1e9-ca9f91ee1c26/media/image/4797d6ec885f4792a6374dafa6db513e.png");
+    background-size:cover; background-position:center;
+    filter:brightness(0.5) saturate(0.85);
+    transform:scale(1.06);
+    animation:lobbyBgDrift 22s ease-in-out infinite alternate;
+  }
+  @keyframes lobbyBgDrift{
+    from{ transform:scale(1.06) translateY(0); }
+    to{ transform:scale(1.12) translateY(-10px); }
+  }
+  #lobby .lobby-shade{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(900px 500px at 50% 30%, rgba(0,0,0,0) 0%, rgba(11,10,8,0.55) 70%),
+      linear-gradient(180deg, rgba(11,10,8,0.75) 0%, rgba(11,10,8,0.25) 45%, rgba(11,10,8,0.85) 100%);
+  }
+  .lobby-inner{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    width:100%; height:100%; padding:32px;
+    text-align:center;
+    transition:transform .6s cubic-bezier(.22,1,.36,1), filter .6s ease;
+  }
+  .lobby-logo{
+    width:84px; height:84px; border-radius:50%;
+    background:var(--gold); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 6px rgba(255,199,44,0.12), 0 14px 34px rgba(0,0,0,0.6);
+    margin-bottom:20px;
+    animation:lobbyFloat 5s ease-in-out infinite;
+  }
+  .lobby-logo img{ width:56px; height:56px; object-fit:contain; border-radius:50%; }
+  .lobby-logo svg{ width:44px; height:44px; }
+  @keyframes lobbyFloat{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-7px);} }
+  .lobby-name{
+    font-family:'Fraunces', serif;
+    font-size:clamp(40px, 11vw, 64px);
+    font-weight:600; font-style:italic;
+    color:var(--gold);
+    text-shadow:0 4px 26px rgba(0,0,0,0.7);
+    letter-spacing:0.5px;
+    margin:0 0 6px;
+    line-height:1.15;
+  }
+  html[dir="rtl"] .lobby-name{ font-family:'Noto Kufi Arabic','Cairo',sans-serif; font-style:normal; }
+  .lobby-tag{
+    color:rgba(233,226,212,0.75); font-size:14px; letter-spacing:2.5px; text-transform:uppercase;
+    margin-bottom:44px; text-shadow:0 2px 12px rgba(0,0,0,0.8);
+  }
+  html[dir="rtl"] .lobby-tag{ letter-spacing:0; font-size:15px; }
+  .lobby-menu-btn{
+    background:linear-gradient(180deg,#FFD34D 0%, #E9B322 100%);
+    color:#141210; border:none; cursor:pointer;
+    font-family:inherit; font-weight:800; font-size:20px;
+    padding:18px 74px; border-radius:14px;
+    box-shadow:0 12px 34px rgba(0,0,0,0.55), 0 4px 14px rgba(255,199,44,0.25);
+    letter-spacing:1px;
+    transition:transform .18s cubic-bezier(.22,1,.36,1), box-shadow .18s ease;
+    animation:lobbyPulse 2.6s ease-in-out infinite;
+  }
+  .lobby-menu-btn:hover{ transform:translateY(-2px) scale(1.02); }
+  .lobby-menu-btn:active{ transform:scale(0.97); }
+  @keyframes lobbyPulse{
+    0%,100%{ box-shadow:0 12px 34px rgba(0,0,0,0.55), 0 0 0 0 rgba(255,199,44,0.35); }
+    50%{ box-shadow:0 12px 34px rgba(0,0,0,0.55), 0 0 0 12px rgba(255,199,44,0); }
+  }
+  .lobby-langs{
+    position:absolute; top:18px; inset-inline-end:16px; z-index:3;
+    display:flex; gap:4px;
+    background:rgba(22,19,15,0.75); border:1px solid var(--border);
+    border-radius:999px; padding:3px;
+    backdrop-filter:blur(8px);
+  }
+  .lobby-langs button{
+    background:transparent; border:none; color:var(--text-muted);
+    font-family:inherit; font-size:12px; font-weight:700;
+    padding:6px 12px; border-radius:999px; cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .lobby-langs button.active{ background:var(--gold); color:#141210; }
+  .lobby-hint{
+    position:absolute; bottom:26px; left:0; right:0; z-index:2;
+    color:rgba(233,226,212,0.45); font-size:11px; letter-spacing:1px; text-align:center;
+  }
+  html[dir="rtl"] .lobby-hint{ letter-spacing:0; }
+  @media (prefers-reduced-motion: reduce){
+    #lobby .lobby-bg, .lobby-logo, .lobby-menu-btn{ animation:none; }
+  }
 </style>
 </head>
 <body>
  
 <div id="loading">Loading Sadonya Cafe…</div>
+
+<!-- ============ WAITING LOBBY ============ -->
+<div id="lobby" style="display:none;">
+  <div class="lobby-bg"></div>
+  <div class="lobby-shade"></div>
+  <div class="lobby-langs" id="lobbyLangs"></div>
+  <div class="lobby-inner">
+    <div class="lobby-logo" id="lobbyLogo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="1.6"><path d="M4 8h13a3 3 0 0 1 0 6h-1M4 8v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8M4 8V6M9 3v2M13 3v2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="lobby-name" id="lobbyName">Sadonya Cafe</h1>
+    <div class="lobby-tag" id="lobbyTag">Coffee • Food • Desserts</div>
+    <button class="lobby-menu-btn" id="lobbyMenuBtn">Menu</button>
+    <div class="lobby-hint" id="lobbyHint"></div>
+  </div>
+</div>
  
 <!-- ============ CUSTOMER VIEW ============ -->
 <div id="customerView" style="display:none;">
@@ -323,9 +440,9 @@ const MENU_ID = "sadonya-cafe";
 const STORAGE_BUCKET = "menu-images";
  
 const UI = {
-  en:{ popular:"Popular", noItems:"No items in this category yet.", hours:"Opening Hours", contact:"Contact", follow:"Follow Us", location:"Location", scan:"Scan the QR code at your table to view this menu", currency:"IQD", search:"Search the menu…", noResults:"No matching items found.", results:"results" },
-  ku:{ popular:"بەناوبانگ", noItems:"هێشتا هیچ شتێک لەم بەشەدا نییە.", hours:"کاتی کارکردن", contact:"پەیوەندی", follow:"شوێنمان بکەون", location:"شوێن", scan:"کۆدی QR لەسەر مێزەکەت سکان بکە بۆ بینینی مینیو", currency:"IQD", search:"گەڕان لە مێنیۆدا…", noResults:"هیچ ئەنجامێک نەدۆزرایەوە.", results:"ئەنجام" },
-  ar:{ popular:"الأكثر طلبًا", noItems:"لا توجد عناصر في هذا القسم بعد.", hours:"ساعات العمل", contact:"تواصل معنا", follow:"تابعنا", location:"الموقع", scan:"امسح رمز QR الموجود على طاولتك لعرض القائمة", currency:"IQD", search:"ابحث في القائمة…", noResults:"لا توجد نتائج مطابقة.", results:"نتيجة" }
+  en:{ popular:"Popular", noItems:"No items in this category yet.", hours:"Opening Hours", contact:"Contact", follow:"Follow Us", location:"Location", scan:"Scan the QR code at your table to view this menu", currency:"IQD", lobbyTag:"Coffee • Food • Desserts", lobbyMenu:"Menu", lobbyHint:"Tap the button above to open the menu", search:"Search the menu…", noResults:"No matching items found.", results:"results" },
+  ku:{ popular:"بەناوبانگ", noItems:"هێشتا هیچ شتێک لەم بەشەدا نییە.", hours:"کاتی کارکردن", contact:"پەیوەندی", follow:"شوێنمان بکەون", location:"شوێن", scan:"کۆدی QR لەسەر مێزەکەت سکان بکە بۆ بینینی مینیو", currency:"IQD", lobbyTag:"قاوە • خواردن • شیرینی", lobbyMenu:"مێنیۆ", lobbyHint:"بوتنەکەی سەوەوە داگرە بۆ کراوەكانی مێنیۆ", search:"گەڕان لە مێنیۆدا…", noResults:"هیچ ئەنجامێک نەدۆزرایەوە.", results:"ئەنجام" },
+  ar:{ popular:"الأكثر طلبًا", noItems:"لا توجد عناصر في هذا القسم بعد.", hours:"ساعات العمل", contact:"تواصل معنا", follow:"تابعنا", location:"الموقع", scan:"امسح رمز QR الموجود على طاولتك لعرض القائمة", currency:"IQD", lobbyTag:"قهوة • أطعمة • حلويات", lobbyMenu:"منيو", lobbyHint:"اضغط على الزر لفتح القائمة", search:"ابحث في القائمة…", noResults:"لا توجد نتائج مطابقة.", results:"نتيجة" }
 };
  
 function tr(field, lang){
@@ -521,18 +638,86 @@ const ICON_STAR = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2
 /* ============================================================
    ROUTER
 ============================================================ */
+let lobbyEntered = false;
+
 function handleRoute(){
   const hash = location.hash;
   if(hash.startsWith("#admin")){
+    hideLobby(true);
     document.getElementById("customerView").style.display = "none";
     document.getElementById("adminView").style.display = "block";
     if(state.isAdminAuthed){ showAdminDashboard(); } else { showAdminLogin(); }
+    return;
+  }
+  document.getElementById("adminView").style.display = "none";
+  // #menu / #lobby links: #menu skips the lobby once it has been visited
+  if(hash.startsWith("#menu") && lobbyEntered){
+    hideLobby(true);
+  } else if(hash.startsWith("#menu") && !lobbyEntered){
+    lobbyEntered = true;
+    hideLobby(true);
+  } else if(!lobbyEntered){
+    showLobby();
   } else {
-    document.getElementById("adminView").style.display = "none";
-    document.getElementById("customerView").style.display = "block";
-    renderCustomer();
+    hideLobby(true);
+  }
+  document.getElementById("customerView").style.display = "block";
+  renderCustomer();
+}
+
+function showLobby(){
+  const lobby = document.getElementById("lobby");
+  lobby.style.display = "flex";
+  lobby.classList.remove("lobby-leaving");
+  renderLobby();
+}
+
+function hideLobby(instant){
+  const lobby = document.getElementById("lobby");
+  if(instant){
+    lobby.style.display = "none";
+    lobby.classList.add("lobby-leaving");
+  } else {
+    lobby.classList.add("lobby-leaving");
+    setTimeout(()=>{ lobby.style.display = "none"; }, 620);
   }
 }
+
+function renderLobby(){
+  const lang = state.lang;
+  const s = state.settings;
+  document.getElementById("lobbyName").textContent = s.name || "Sadonya Cafe";
+  document.getElementById("lobbyTag").textContent = s.description ? tr(s.description, lang) : (UI[lang].lobbyTag || "");
+  document.getElementById("lobbyMenuBtn").textContent = UI[lang].lobbyMenu || "Menu";
+  document.getElementById("lobbyHint").textContent = UI[lang].lobbyHint || "";
+  const logoEl = document.getElementById("lobbyLogo");
+  logoEl.innerHTML = s.logo ? `<img src="${s.logo}" alt="logo">`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="#141210" stroke-width="1.6"><path d="M4 8h13a3 3 0 0 1 0 6h-1M4 8v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8M4 8V6M9 3v2M13 3v2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const dir = (lang === "en") ? "ltr" : "rtl";
+  document.documentElement.lang = lang;
+  document.documentElement.dir = dir;
+  const langs = [["en","English"],["ku","کوردی"],["ar","العربية"]];
+  document.getElementById("lobbyLangs").innerHTML = langs.map(([code,label])=>
+    `<button data-lang="${code}" class="${state.lang===code?'active':''}">${label}</button>`
+  ).join("");
+  document.querySelectorAll("#lobbyLangs button").forEach(btn=>{
+    btn.onclick = ()=>{
+      if(btn.dataset.lang === state.lang) return;
+      state.lang = btn.dataset.lang;
+      renderLobby();
+      renderCustomer();
+    };
+  });
+}
+
+document.getElementById("lobbyMenuBtn").addEventListener("click", ()=>{
+  lobbyEntered = true;
+  history.replaceState(null, "", "#menu");
+  const customer = document.getElementById("customerView");
+  hideLobby(false);
+  customer.classList.add("language-entering");
+  setTimeout(()=>customer.classList.remove("language-entering"), 520);
+});
 window.addEventListener("hashchange", handleRoute);
  
 /* ============================================================
@@ -752,7 +937,7 @@ function renderCustomer(){
  
   // footer
   const contactParts = [];
-  if(s.phone) contactParts.push(`<div class="footer-row">${escapeHtml(s.phone)}</div>`);
+  if(s.phone) contactParts.push(`<div class="footer-row">${UI[lang].contact}: <span class="ltr-iso">${escapeHtml(s.phone)}</span></div>`);
   if(s.location) contactParts.push(`<div class="footer-row">${UI[lang].location}: ${escapeHtml(s.location)}</div>`);
   const socialParts = [];
   if(s.instagram) socialParts.push(`<a class="social-link" href="${escapeHtml(socialUrl(s.instagram,"instagram"))}" target="_blank" rel="noopener">${ICON_INSTAGRAM}<span>Instagram</span></a>`);
@@ -765,6 +950,8 @@ function renderCustomer(){
     document.getElementById("hoursClock").innerHTML = ICON_CLOCK;
     document.getElementById("hoursTitleTxt").textContent = UI[lang].hours;
     document.getElementById("hoursBody").textContent = s.hours;
+    document.getElementById("hoursBody").classList.add("ltr-iso");
+    document.getElementById("hoursBody").style.display = "block";
   } else hoursCard.style.display = "none";
   const embed = mapsEmbedUrl(s.location, s.name);
   document.getElementById("footerMap").innerHTML = embed ? `<iframe class="map-embed" src="${embed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="${UI[lang].location}"></iframe>` : "";
